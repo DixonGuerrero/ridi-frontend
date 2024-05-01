@@ -1,0 +1,31 @@
+---
+import Layout from "../layouts/Layout.astro";
+import FormLogin from "../components/FormLogin.astro";
+import ArrowLeft from "../../public/icons/arrowLeft.astro";
+import Boton from "../components/Boton.astro";
+---
+
+<Layout title="Login para Ingresar a RIDI">
+   <main class="flex justify-center items-center h-screen w-full flex-col">
+
+      <Boton direccion="/" texto="Regresar" estilos="bg-purple-600 text-gray-100 py-2.5 px-5" >
+         <ArrowLeft slot="before" color="white" />
+      </Boton>
+
+      <div class="rounded container-xl">
+
+         <FormLogin  />
+      </div>
+   </main>
+</Layout>
+
+<style>
+   main {
+      background-image: linear-gradient(-20deg, #b721ff 0%, #21d4fd 100%);
+   }
+
+   div {
+     background-color: rgba(255, 255, 255, 0.1); 
+   }
+
+</style>

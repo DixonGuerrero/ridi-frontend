@@ -1,0 +1,38 @@
+---
+import Dashboard from "../../layouts/Dashboard.astro";
+import Boton from "../../components/Boton.astro";
+import CreateIcon from "../../../public/icons/create.astro";
+import CardProyecto from "../../components/CardProyect.astro";
+---
+
+<Dashboard title="Dashboard RIDI -> Bienvenido">
+
+   <div class="  dark:bg-gray-800 flex items-center justify-between bg-white rounded-lg ">
+      <p class="text-3xl text-blue-500 font-bold  dark:text-purple-500">Proyectos</p>
+      <div class="flex gap-4 items-center p-2 bg-blue-200 rounded">
+          <Boton direccion="#" estilos="items-center">
+              <CreateIcon slot="before" estilos="text-blue-500" />
+          </Boton>
+
+      </div>
+  </div>
+
+   <div class="flex gap-5 mt-3 flex-wrap justify-center">
+      <CardProyecto estilos="rounded-lg " />
+      <CardProyecto estilos="rounded-lg " />
+      <CardProyecto estilos="rounded-lg " />
+      <CardProyecto estilos="rounded-lg " />
+      <CardProyecto estilos="rounded-lg " />
+      <CardProyecto estilos="rounded-lg " />
+      <CardProyecto estilos="rounded-lg " />
+      <CardProyecto estilos="rounded-lg " />
+      <CardProyecto estilos="rounded-lg " />
+      <CardProyecto estilos="rounded-lg " />
+      <CardProyecto estilos="rounded-lg " />
+      <CardProyecto estilos="rounded-lg " />
+   </div>
+
+   
+
+</Dashboard>
+

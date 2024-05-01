@@ -1,0 +1,23 @@
+---
+import ArrowRight from "../../public/icons/arrowRight.astro";
+import Boton from "./Boton.astro";
+
+interface Props {
+   estilos?: string;
+}
+
+const {estilos} = Astro.props
+
+---
+
+<div class=`${estilos} flex flex-col dark:bg-purple-800  border-2 border-blue-500 dark:border-purple-500 max-w-96`>
+   <img class="rounded-t-lg" src="../../public/images/exampleProyect.jpg" alt="">
+   <div class="flex flex-col justify-between h-full">
+      <h3 class="text-xl font-bold p-3 text-gray-700  dark:text-purple-200 sm:text-3xl">Nombre de Proyecto</h3>
+      <div class="flex justify-end p-3">
+         <Boton direccion="#" texto="Ver Proyecto" estilos="bg-blue-500 px-5 py-2.5 text-white">
+            <ArrowRight slot="after" color="white">Ver Proyecto</ArrowRight>
+         </Boton>
+      </div>
+   </div>
+</div>
