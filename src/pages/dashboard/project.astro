@@ -1,0 +1,26 @@
+---
+import Dashboard from "../../layouts/Dashboard.astro";
+import Boton from "../../components/Boton.astro";
+import CreateIcon from "../../../public/icons/create.astro";
+import ShareIcon from "../../../public/icons/share.astro";
+import GroupIcon from "../../../public/icons/group.astro";
+
+
+---
+<Dashboard title="Proyecto">
+   <div class="  dark:bg-gray-800 flex items-center justify-between bg-white rounded-lg ">
+      <p class="text-3xl text-blue-500 font-bold  dark:text-purple-500">Proyectos</p>
+      <div class="flex gap-4 items-center p-2 bg-purple-300   rounded">
+          <Boton direccion="#" estilos="items-center">
+            <ShareIcon slot="before" estilos="text-white w-6" />
+        </Boton>
+        <Boton direccion="#" estilos="">
+              <GroupIcon slot="before" estilos="text-white w-7" />
+          </Boton>
+      </div>
+  </div>
+
+  <div class="w-f">
+   
+  </div>
+</Dashboard>
