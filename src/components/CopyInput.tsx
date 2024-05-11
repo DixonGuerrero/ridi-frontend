@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { Toaster, toast } from "sonner";
 
-function ShareCourseModal({ inviteCode }) {
+interface ShareCourseModalProps {
+  inviteCode: string | undefined;
+}
+
+
+
+function ShareCourseModal({ inviteCode }: ShareCourseModalProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(inviteCode).then(
-      () => {
-        toast.success("Copiado al portapapeles");
-      },
-      (err) => {
-        // Handle error
-        console.error("Error copying text: ", err);
-      }
-    );
+    if (inviteCode) {
+      navigator.clipboard.writeText(inviteCode);
+      toast.success("Codigo copiado al portapapeles");
+    }
   };
 
   return (

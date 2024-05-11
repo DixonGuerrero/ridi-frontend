@@ -3,7 +3,12 @@ import { getMembersByIdProject } from "../services/members.service";
 import { getImageById } from "../services/images.service";
 import type { User } from "types";
 
-const ProjectUsersDropdown = ({ projectId, token }) => {
+interface ProjectUsersDropdownProps {
+  projectId: number | undefined | string;
+  token: any;
+}
+
+const ProjectUsersDropdown : React.FC<ProjectUsersDropdownProps> = ({ projectId, token }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [members, setMembers] = useState<User[]>([]);
 

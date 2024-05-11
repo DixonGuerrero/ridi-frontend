@@ -181,7 +181,7 @@ const TaskTabler: React.FC<TaskTablerProps> = ({ project_id, token }) => {
 
             <div
               className="flex min-h-32 flex-col h-full"
-              droppable="true"
+          
               onDragOver={(evt) => draggingOver(evt)}
               onDrop={(evt) => onDrop(evt, "en proceso")}
             >
@@ -215,7 +215,6 @@ const TaskTabler: React.FC<TaskTablerProps> = ({ project_id, token }) => {
 
             <div
               className="flex min-h-32 flex-col h-full"
-              droppable="true"
               onDragOver={(evt) => draggingOver(evt)}
               onDrop={(evt) => onDrop(evt, "completado")}
             >

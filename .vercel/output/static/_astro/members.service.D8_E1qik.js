@@ -1,0 +1,1 @@
+const s="https://ridi-backend.dixonguerrero1204.workers.dev/api/",n=async(o,r)=>{const e=await(await fetch(`${s}members/${o}`,{method:"GET",headers:{"Content-Type":"application/json",Authorization:`Bearer ${r}`}})).json();return console.log(e),e.members};export{n as g};

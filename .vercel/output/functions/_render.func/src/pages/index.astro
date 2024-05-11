@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import NavLandingPage from "../components/NavLP.astro";
+import HeroLandingPage from "../components/HeroLP.astro";
+---
+
+<Layout title="Bienvedido a RIDI">
+  <main>
+    <NavLandingPage />
+    <HeroLandingPage />
+ <!--    <BeneficiosLandingPage /> -->
+
+    <script
+      is:inline
+      src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"
+    ></script>
+  </main>
+<!--   <FooterLP /> -->
+</Layout>
+
+<style>
+  main {
+    margin: auto;
+    width: 1000px;
+    max-width: calc(100% - 2rem);
+    color: white;
+    font-size: 20px;
+    line-height: 1.6;
+  }
+
+  h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+</style>

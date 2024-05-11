@@ -1,0 +1,1 @@
+const s="https://ridi-backend.dixonguerrero1204.workers.dev/api/",o=async n=>await(await fetch(`${s}login`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(n)})).json(),t=async n=>await(await fetch(`${s}signup`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(n)})).json();export{o as l,t as s};

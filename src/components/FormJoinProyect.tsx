@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Toaster, toast } from "sonner";
 import { joinProject } from "../services/project.service";
-import type { MemberJoinProject, Project } from "types";
+import type { MemberJoinProject } from "types";
 import useProjectStore from "../store/project.store";
 
 interface FormProps {
