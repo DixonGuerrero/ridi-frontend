@@ -20,20 +20,30 @@ const TaskDetailModal = ({
   const { toggleShouldUpdateTasks } = useTaskStore();
 
   const handleDelete = async (id: any) => {
-    const deleteTastPromise = deleteTask(id, token);
-    toast.promise(deleteTastPromise, {
-      loading: "Eliminando tarea...",
-      success: (response) => {
-        if (response.success) {
-          toggleShouldUpdateTasks(true);
-          setTimeout(onClose, 1500);
-          return "Tarea eliminada correctamente";
-        } else {
-          throw new Error("Error al eliminar la tarea");
-        }
-      },
-      error: (error) => error.toString(),
-    });
+    toast(
+      "Quieres eliminar esta tarea?, si no es asi no te preocupes, esta alerta desaparecera en cualquier momento",
+      {
+        action: {
+          label: "Si, eliminar tarea",
+          onClick: () => {
+            const deleteTastPromise = deleteTask(id, token);
+            toast.promise(deleteTastPromise, {
+              loading: "Eliminando tarea...",
+              success: (response) => {
+                if (response.success) {
+                  toggleShouldUpdateTasks(true);
+                  setTimeout(onClose, 1500);
+                  return "Tarea eliminada correctamente";
+                } else {
+                  throw new Error("Error al eliminar la tarea");
+                }
+              },
+              error: (error) => error.toString(),
+            });
+          },
+        },
+      }
+    );
   };
 
   return (
@@ -65,9 +75,7 @@ const TaskDetailModal = ({
               </button>
             </div>
             <div>
-              <h2 className="font-bold flex items-center gap-2">
-                Descripción
-              </h2>
+              <h2 className="font-bold flex items-center gap-2">Descripción</h2>
               <p className="text-sm my-2 rounded-lg font-medium">
                 {task.description}
               </p>
@@ -76,7 +84,9 @@ const TaskDetailModal = ({
                 <div className="mt-4">
                   <h2 className="font-bold">Fecha límite</h2>
                   <p className="text-sm my-2 rounded-lg font-medium py-2">
-                    {task.due_date instanceof Date ? task.due_date.toLocaleDateString() : task.due_date}
+                    {task.due_date instanceof Date
+                      ? task.due_date.toLocaleDateString()
+                      : task.due_date}
                   </p>
                 </div>
                 <div className="mt-4">
@@ -94,7 +104,11 @@ const TaskDetailModal = ({
               </div>
               <div className="flex justify-between items-center my-5 bg-gray-200 rounded-lg p-3">
                 <h2 className="font-medium text-gray-500">Encargado:</h2>
-                <img className="w-14 rounded-full" src={imgUser} alt="Assigned user" />
+                <img
+                  className="w-14 rounded-full"
+                  src={imgUser}
+                  alt="Assigned user"
+                />
               </div>
             </div>
             <div className="flex flex-row justify-end">

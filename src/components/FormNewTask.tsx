@@ -18,7 +18,7 @@ interface FormProps {
 
 const TimeInput: React.FC<TimeInputProps> = ({ id, label, onChange }) => (
   <div className=" mx-auto ">
-    <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+    <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900 ">
       {label}
     </label>
     <input
@@ -109,7 +109,7 @@ const FormNewTask: React.FC<FormProps> = ({ project_id, token }) => {
               </div>
               <div className="w-full mt-4">
                 <label htmlFor="description" className="block mb-2 text-sm font-semibold">Descripción</label>
-                <textarea id="description" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600" placeholder="Ingrese la descripción..." required value={description} onChange={(e) => setDescription(e.target.value)} />
+                <textarea id="description" rows={4} className="block p-2.5 w-full text-sm text-white bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600" placeholder="Ingrese la descripción..." required value={description} onChange={(e) => setDescription(e.target.value)} />
               </div>
               <div className="w-full mt-4">
                 <label htmlFor="priority" className="block mb-2 text-sm font-semibold">Prioridad</label>
