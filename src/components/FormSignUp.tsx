@@ -37,7 +37,7 @@ export default function FormSignUp ()  {
     <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start w-full p-12">
       <img
         className="flex-1 sm:w-full lg:max-w-md sm:block hidden"
-        src="../../public/images/logo.webp"
+        src="https://gjcpczwrwrfgfxouxkkg.supabase.co/storage/v1/object/public/ridi-images-resources/logo.webp"
         alt="Logo"
       />
       <div className="flex-1 lg:w-[400px] w-full lg:h-[450px] p-10 bg-white rounded-lg shadow">
