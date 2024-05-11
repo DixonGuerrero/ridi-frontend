@@ -1,1 +1,0 @@
-const t="https://ridi-backend.dixonguerrero1204.workers.dev/api/",n=async(e,a)=>(await(await fetch(`${t}images/${e}`,{method:"GET",headers:{"Content-Type":"application/json",Authorization:`Bearer ${a}`}})).json()).images;export{n as g};
