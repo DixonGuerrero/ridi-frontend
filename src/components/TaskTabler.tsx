@@ -194,7 +194,7 @@ const TaskTabler: React.FC<TaskTablerProps> = ({ project_id, token }) => {
                   onClick={() => openTaskDetail(task, task.assigned_user_id)}
                 >
                   <div>
-                    <h4 className="text-xl text-purple-400 font-bold  ">
+                    <h4 className="text-xl text-blue-400 font-bold  ">
                       {" "}
                       {task.name}
                     </h4>
@@ -227,7 +227,7 @@ const TaskTabler: React.FC<TaskTablerProps> = ({ project_id, token }) => {
                   onClick={() => openTaskDetail(task, task.assigned_user_id)}
                 >
                   <div>
-                    <h4 className="text-xl text-purple-400 font-bold  ">
+                    <h4 className="text-xl text-green-400 font-bold  ">
                       {" "}
                       {task.name}
                     </h4>
