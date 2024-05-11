@@ -1,0 +1,29 @@
+---
+import CardProyect from "./CardProyect.astro";
+import { getListProjectsByIdUser } from "services/project.service";
+
+// Obtención de datos desde cookies y props
+const token = Astro.cookies.get("token")?.value;
+const { user_id } = Astro.props;
+
+// Llamada al servicio para obtener los proyectos
+const projects = await getListProjectsByIdUser(user_id, token);
+console.log(projects);
+---
+
+<div class="flex gap-5 my-5  flex-wrap justify-center">
+
+  {
+    projects.length > 0 ? (
+      projects.map((project) => (
+        
+          <CardProyect name={project.name} image={project.image} id={project.project_id}  token={token} estilos="rounded-lg"/>
+
+      ))
+    ) : (
+      <div class="text-center">
+        <p class="text-lg">No hay proyectos</p>
+      </div>
+    )
+  }
+</div>

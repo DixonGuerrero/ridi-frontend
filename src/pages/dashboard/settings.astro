@@ -2,9 +2,28 @@
 import Boton from "../../components/Boton.astro";
 import Dashboard from "../../layouts/Dashboard.astro";
 import CreateIcon from "../../../public/icons/create.astro";
+import { getImageById } from "services/images.service";
+import { getUserByEmail } from "services/user.service";
+import UpdateImageUser from "components/UpdateImageUser";
+import CloseSesion from "components/CloseSesion";
+import UpdateDataUser from "components/UpdateUser";
+
+const token = Astro.cookies.get("token")?.value;
+const email = Astro.cookies.get("email")?.value;
+
+if(!token){
+    return Astro.redirect("/");
+}
+const authorization = true
+
+
+ 
+  const user = await getUserByEmail(email, token)
+  const imagen = await getImageById(user.image,token)
+  user.image = imagen.url
 ---
 
-<Dashboard title="Ajustes de Cuenta">
+<Dashboard authorization={authorization} title="Ajustes de Cuenta">
   <div
     class="dark:bg-gray-800 flex items-center justify-between bg-white rounded-lg"
   >
@@ -17,110 +36,16 @@ import CreateIcon from "../../../public/icons/create.astro";
     <div class="flex-1 flex flex-col justify-center items-center w-full my-10">
       <img
         class="rounded-full size-40 sm:size-64 shadow-lg shadow-blue-500 dark:shadow-purple-500"
-        src="../../../public/images/avatar.jpg"
+        src={user.image}
         alt=""
       />
-      <Boton
-        direccion="#"
-        estilos="gap-2 bg-blue-500 dark:bg-purple-500 px-5 py-2 my-3 text-white sm:text-xl"
-        texto="Cambiar foto "
-      >
-        <CreateIcon slot="before" estilos="text-white" />
-      </Boton>
+      <UpdateImageUser client:idle />
 
-      <Boton direccion="#" estilos="bg-red-500 px-5 py-2 my-5 shadow-lg shadow-red-500 text-white sm:text-xl " texto="Cerrar Sesion" >
-      </Boton>
+      <UpdateDataUser client:idle />
+
+      <CloseSesion client:idle />
     </div>
-<section class="flex-1 flex items-center justify-center w-full">
-   <div
-      class=" w-full sm:w-3/5  bg-blue-400 dark:bg-purple-400 p-5 purple rounded-lg"
-    >
-    
-      <form class="" action="#">
-        <h2 class="sm:text-2xl text-white font-bold my-3">Datos Personales</h2>
-        <div class="my-3">
-          <label
-            for="first_name"
-            class="block mb-2 text-sm font-medium text-white dark:text-white"
-            >Nombre</label
-          >
-          <input
-            type="text"
-            id="first_name"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-purple-600 dark:placeholder-blue-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Nombre de usuario"
-            required
-          />
-        </div>
-        <div class="my-3">
-          <label
-            for="first_name"
-            class="block mb-2 text-sm font-medium text-white dark:text-white"
-            >Email</label
-          >
-          <input
-            type="text"
-            id="first_name"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-purple-600 dark:placeholder-blue-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Email de usuario"
-            required
-          />
-        </div>
-        <div class="my-3">
-          <label
-            for="phone"
-            class="block mb-2 text-sm font-medium text-white dark:text-white"
-            >Numero de Telefono</label
-          >
-          <input
-            type="tel"
-            id="phone"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-purple-600 dark:placeholder-blue-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="123-45-678"
-            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-            required
-          />
-        </div>
-        <div class="my-3">
-          <label
-            for="password"
-            class="block mb-2 text-sm font-medium text-white dark:text-white"
-            >Contraseña</label
-          >
-          <input
-            type="password"
-            id="password"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-purple-600 dark:placeholder-blue-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="•••••••••"
-            required
-          />
-        </div>
-        <div class="my-3">
-          <label
-            for="confirm_password"
-            class="block mb-2 text-sm font-medium text-white dark:text-white"
-            >Confirmar Contraseña</label
-          >
-          <input
-            type="password"
-            id="confirm_password"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-purple-600 dark:placeholder-blue-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="•••••••••"
-            required
-          />
-        </div>
 
-         <div class="flex items-center justify-center ">
-            <Boton
-               direccion="#"
-               estilos="bg-blue-500 dark:bg-purple-500  px-5 py-2 my-3 text-white sm:text-xl"
-               texto="Guardar Cambios"
-            />
-
-         </div>
-      </form>
-    </div>
-</section>
     
   </div>
 </Dashboard>

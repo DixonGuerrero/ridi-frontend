@@ -1,18 +1,30 @@
 ---
-import CalendarIcon from "../../public/icons/calendar.astro";
-import HomeIcon from "../../public/icons/home.astro";
-import SunIcon from "../../public/icons/sun.astro";
-import TaskIcon from "../../public/icons/task.astro";
 import Boton from "../components/Boton.astro";
 import BellIcon from "../../public/icons/bell.astro";
 import SettingsIcon from "../../public/icons/settings.astro";
-import Whatsapp from "../../public/icons/whatsapp.astro";
+import { getUserByEmail } from "services/user.service";
+import { getImageById } from "services/images.service";
 
 interface Props {
   title: string;
+  authorization: boolean;
 }
 
-const { title } = Astro.props;
+const { title, authorization } = Astro.props;
+let user;
+
+if (authorization) {
+  const email = Astro.cookies.get("email")?.value;
+  const token = Astro.cookies.get("token")?.value;
+  user = await getUserByEmail(email, token);
+  const imagen = await getImageById(user.image, token);
+  user.image = imagen.url;
+}
+
+//Obtener la pagina actual para activar el link correspondiente
+const url = Astro.url.pathname.split("/");
+const pagina = url[url.length - 1];
+console.log(pagina);
 ---
 
 <!doctype html>
@@ -21,11 +33,17 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href="../../public/images/logo.webp" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="../../public/images/logo.webp"
+    />
   </head>
+
   <body
     class="bg-gray-200 dark:bg-gray-900 h-screen w-full p-2.5 transition-colors duration-300"
   >
+    <div></div>
     <div
       class="menu fixed w-12 h-12 text-3xl flex justify-center items-center rounded-full bg-black dark:bg-white text-white dark:text-black right-4 top-4 z-40 sm:hidden"
     >
@@ -43,15 +61,15 @@ const { title } = Astro.props;
           <div class="flex gap-2">
             <img
               id="logo"
-              src="../../public/images/avatar.jpg"
+              src={user?.image}
               class="rounded-full w-12 h-12"
               alt=""
             />
             <div class="">
-              <div class="">
-                <span class="font-bold">Dixon Guerrero</span>
+              <div class="flex flex-col">
+                <span class="font-bold">{!user ? "Generico" : user.name}</span>
                 <span class="text-[10px] text-blue-300 dark:text-blue-100"
-                  >dixonguerrero1204@gmail.com</span
+                  >{!user ? "Generico" : user.email}</span
                 >
               </div>
             </div>
@@ -64,13 +82,11 @@ const { title } = Astro.props;
         <ul>
           <li class="flex mb-1">
             <a
-              id="inbox"
+              id={pagina == "dashboard" ? "inbox" : ""}
               href="/dashboard"
               class="text-gray-500 dark:text-gray-300 rounded-lg w-full h-11 flex items-center hover:bg-blue-300 dark:hover:bg-blue-500 hover:text-white"
             >
-              <ion-icon
-                class="min-w-[50px] text-[20px]"
-                name="home"></ion-icon>
+              <ion-icon class="min-w-[50px] text-[20px]" name="home"></ion-icon>
               <span>Principal</span>
             </a>
           </li>
@@ -87,13 +103,12 @@ const { title } = Astro.props;
           </li>
           <li class="flex mb-1">
             <a
-              id=""
+              id={pagina == "tasks" ? "inbox" : ""}
               href="/dashboard/tasks"
               class="text-gray-500 dark:text-gray-300 rounded-lg w-full h-11 flex items-center hover:bg-blue-300 dark:hover:bg-blue-500 hover:text-white"
             >
-              <ion-icon
-                class="min-w-[50px] text-[20px]"
-                name="reader"></ion-icon>
+              <ion-icon class="min-w-[50px] text-[20px]" name="reader"
+              ></ion-icon>
               <span>Mis tareas</span>
             </a>
           </li>
@@ -109,7 +124,7 @@ const { title } = Astro.props;
           <div
             class="info w-40 h-11 overflow-hidden flex items-center text-gray-500 dark:text-gray-300 gap-2"
           >
-          <ion-icon id="iconTema" name="cloudy-night"></ion-icon>
+            <ion-icon id="iconTema" name="cloudy-night"></ion-icon>
             <span id="texto-Tema">Modo oscuro</span>
           </div>
           <div
@@ -129,7 +144,7 @@ const { title } = Astro.props;
       </div>
     </div>
 
-    <main class="sm:ml-64 ml-0 ">
+    <main class="sm:ml-64 ml-0">
       <nav
         class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-5 flex justify-between items-center"
       >
@@ -142,13 +157,18 @@ const { title } = Astro.props;
             <BellIcon slot="before" estilos="text-gray-500" />
           </Boton>
           <Boton direccion="/dashboard/settings">
-            <SettingsIcon slot="before" estilos="text-gray-500" />
+            <SettingsIcon
+              slot="before"
+              estilos={`text-gray-500 ${pagina == "settings" ? "rounded-lg ring-4 foutline-none ring-blue-300 " : ""}`}
+            />
           </Boton>
         </div>
       </nav>
 
       <!-- Contenido principal aquí -->
-      <div class="flex-1 p-4 bg-white shadow-lg rounded-lg mt-3  dark:bg-gray-800">
+      <div
+        class="flex-1 p-4 bg-white shadow-lg rounded-lg mt-3 dark:bg-gray-800"
+      >
         <slot />
       </div>
     </main>
@@ -190,7 +210,6 @@ const { title } = Astro.props;
       const textoTema = document.getElementById("texto-Tema");
       const iconTema = document.getElementById("iconTema");
 
-
       if (menu && barraLateral && main && circulo && palanca) {
         menu.addEventListener("click", () => {
           barraLateral.classList.toggle("max-barra-lateral");
@@ -215,8 +234,8 @@ const { title } = Astro.props;
         });
 
         palanca.addEventListener("click", () => {
-          const modo =  document.documentElement.classList.contains("dark");
-          toggleTheme(!modo)
+          const modo = document.documentElement.classList.contains("dark");
+          toggleTheme(!modo);
         });
 
         if (logo) {
@@ -232,23 +251,21 @@ const { title } = Astro.props;
         console.error("Some elements were not found in the DOM.");
       }
 
-      function checkTheme(){
-        
-
+      function checkTheme() {
         const darkMode = localStorage.getItem("darkMode");
         toggleTheme(darkMode === "true");
       }
 
-      function toggleTheme(isDark: boolean){
-        if(!circulo || !textoTema || !iconTema) return null;
+      function toggleTheme(isDark: boolean) {
+        if (!circulo || !textoTema || !iconTema) return null;
 
-        if(isDark){
+        if (isDark) {
           document.documentElement.classList.add("dark");
           localStorage.setItem("darkMode", "true");
           circulo.classList.add("prendido");
           textoTema.textContent = "Modo Claro";
           iconTema.setAttribute("name", "sunny");
-        }else{
+        } else {
           document.documentElement.classList.remove("dark");
           localStorage.setItem("darkMode", "false");
           circulo.classList.remove("prendido");
@@ -258,7 +275,6 @@ const { title } = Astro.props;
       }
 
       checkTheme();
-
     </script>
   </body>
 </html>

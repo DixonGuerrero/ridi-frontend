@@ -1,12 +1,20 @@
 ---
 import Dashboard from "layouts/Dashboard.astro";
 import TasksList from "../../components/TasksList.astro";
+
+const token = Astro.cookies.get("token")?.value;
+
+if (token === undefined) {
+   return Astro.redirect("/dashboard");
+}
+
+const autorizado = true;
 ---
 
-<Dashboard title="Tareas Pendientes">
+<Dashboard authorization={autorizado} title="Tareas Pendientes">
   
    <h2 class="text-2xl font-bold dark:text-purple-400 text-blue-500 ">Mis tareas</h2>
 
    
-   <TasksList/>
+   <TasksList />
 </Dashboard>

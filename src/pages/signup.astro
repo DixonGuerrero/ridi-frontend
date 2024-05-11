@@ -1,19 +1,24 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import FormSignUp from "../components/FormSignUp.astro";
-
+import FormSignUp from "../components/FormSignUp";
 import ArrowLeft from "../../public/icons/arrowLeft.astro";
 import Boton from "../components/Boton.astro";
 
+const token = Astro.cookies.get("token")?.value;
+
+if (token !== undefined) {
+
+   return Astro.redirect("/dashboard");
+}
 ---
 
 <Layout title="Creando una Cuenta para ingresar a RIDI">
   <main class="flex justify-center items-center h-screen w-full flex-col">
-    <Boton direccion="/" texto="Regresar" estilos="bg-purple-600 text-gray-100 py-2.5 px-5"> 
+    <Boton direccion="/" texto="Regresar" estilos="bg-purple-600 text-gray-100 py-2.5 px-5 mb-4"> 
       <ArrowLeft slot="before" color="white"/>
     </Boton>
     <div class="rounded container-xl">
-      <FormSignUp />
+      <FormSignUp client:idle/>
     </div>
   </main>
 </Layout>

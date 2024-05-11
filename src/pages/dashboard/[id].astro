@@ -1,0 +1,83 @@
+---
+import Dashboard from "../../layouts/Dashboard.astro";
+import Boton from "../../components/Boton.astro";
+import ShareIcon from "../../../public/icons/share.astro";
+import GroupIcon from "../../../public/icons/group.astro";
+import TaskTabler from "../../components/TaskTabler";
+import { getProjectById } from "services/project.service";
+import { getImageById } from "services/images.service";
+import FormNewTask from "components/FormNewTask";
+import ShareCourseModal from "components/CopyInput";
+import ProjectUsersDropdown from "components/ModalMembersProject";
+import { CheckMember } from "services/members.service";
+import { getUserByEmail } from "services/user.service";
+import type { MemberProject } from "types";
+
+const { id } = Astro.params;
+const email = Astro.cookies.get("email")?.value;
+const token = Astro.cookies.get("token")?.value;
+
+
+if (!email || !token) {
+  return Astro.redirect("/dashboard");
+}
+
+
+const user = await getUserByEmail(email, token);
+const data: MemberProject = {
+  user_id: user.user_id,
+  project_id: id,
+}; 
+const member = await CheckMember(data, token);
+
+if (!member) {
+  return Astro.redirect("/dashboard");
+}
+
+const project = await getProjectById(id, token);
+const image = await getImageById(project.image, token);
+---
+
+<Dashboard authorization title="Proyecto">
+  <div
+    class="dark:bg-gray-800 flex items-center justify-between bg-white rounded-lg"
+  >
+    <p class="text-3xl text-blue-500 font-bold dark:text-purple-500">
+      {project.name}
+    </p>
+    <div class="flex gap-4 items-center p-2 bg-purple-300 rounded">
+        <ShareCourseModal  client:idle inviteCode={project.invite_code} />
+      <ProjectUsersDropdown client:idle projectId={project.project_id} token={token} />
+    </div>
+  </div>
+
+  <div class="my-3 flex gap-2">
+    <h3
+      class="text-2xl font-bold text-white py-1 px-2 bg-purple-500 rounded-lg max-w-60"
+    >
+      Tareas del proyecto
+    </h3>
+    <FormNewTask project_id={project.project_id} token={token} client:idle />
+  </div>
+
+  <div
+    id="contenedor-tasks "
+    class="rounded-lg min-h-96 mt-5 "
+    style={{
+      backgroundImage: `url(${image.url})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}
+  >
+    <TaskTabler
+      project_id={project.project_id}
+      token={token}
+      client:only="react"
+    />
+  </div>
+</Dashboard>
+
+<style>
+  #contenedor-tasks {
+  }
+</style>
