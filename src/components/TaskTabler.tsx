@@ -27,6 +27,7 @@ const TaskTabler: React.FC<TaskTablerProps> = ({ project_id, token }) => {
         toast.info("No hay tareas registradas en este proyecto.");
       }
       setTasks(tasksFromDb);
+      loadUserImages(tasksFromDb);
     }
     fetchTasks();
   }, [project_id, token, shouldUpdateTasks]);
@@ -37,6 +38,7 @@ const TaskTabler: React.FC<TaskTablerProps> = ({ project_id, token }) => {
         const tasksFromDb = await getListTaksByIdProject(project_id, token);
         setTasks(tasksFromDb);
         toggleShouldUpdateTasks(false);
+        loadUserImages(tasksFromDb);
       }
 
       fetchTasks();
@@ -53,6 +55,7 @@ const TaskTabler: React.FC<TaskTablerProps> = ({ project_id, token }) => {
       if (task.assigned_user_id && !userImages[task.assigned_user_id]) {
         const user = await getUserById(task.assigned_user_id, token);
         const image = await getImageById(user.image, token);
+        console.log(image.url); 
         images[task.assigned_user_id] = image.url;
       }
     }
@@ -181,7 +184,6 @@ const TaskTabler: React.FC<TaskTablerProps> = ({ project_id, token }) => {
 
             <div
               className="flex min-h-32 flex-col h-full"
-          
               onDragOver={(evt) => draggingOver(evt)}
               onDrop={(evt) => onDrop(evt, "en proceso")}
             >
@@ -241,14 +243,12 @@ const TaskTabler: React.FC<TaskTablerProps> = ({ project_id, token }) => {
             </div>
           </div>
         </div>
-      ):(
+      ) : (
         <div className="flex justify-center items-center w-full h-96">
-       
-          <p className="text-xl font-bold text-purple-600 bg-white p-3 rounded-lg">No hay tareas registradas</p>
-        
-      </div>
-      
-      
+          <p className="text-xl font-bold text-purple-600 bg-white p-3 rounded-lg">
+            No hay tareas registradas
+          </p>
+        </div>
       )}
     </>
   );
